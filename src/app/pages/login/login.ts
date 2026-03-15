@@ -32,4 +32,11 @@ export class LoginComponent {
 
   }
 
+  logout(){
+
+  localStorage.removeItem('session');
+  this.router.navigate(['/']);
+
+}
+
 }
