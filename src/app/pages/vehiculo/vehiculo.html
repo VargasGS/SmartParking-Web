@@ -1,0 +1,67 @@
+<form [formGroup]="form">
+
+<mat-card appearance="outlined">
+
+  <mat-card-header>
+    <mat-card-title><h3>Registro de Vehículo</h3></mat-card-title>
+    <mat-card-subtitle style="color: #fff;">Ingrese la información</mat-card-subtitle>
+  </mat-card-header>
+<br>
+  <mat-card-content>
+
+    <div class="form-row">
+
+      <!-- Placa -->
+      <mat-form-field appearance="outline">
+        <mat-label>Placa o matrícula</mat-label>
+        <input matInput formControlName="placa">
+
+        <mat-error *ngIf="form.get('placa')?.hasError('required')">
+          La placa es obligatoria
+        </mat-error>
+
+        <mat-error *ngIf="form.get('placa')?.hasError('minlength')">
+          Mínimo 5 caracteres
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Tipo vehículo -->
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo Vehículo</mat-label>
+        <mat-select formControlName="tipoVehiculo">
+
+          <mat-option value="carro">Carro</mat-option>
+          <mat-option value="moto">Moto</mat-option>
+
+        </mat-select>
+
+        <mat-error *ngIf="form.get('tipoVehiculo')?.hasError('required')">
+          Seleccione un tipo de vehículo
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Checkbox -->
+      <mat-checkbox formControlName="ley7600">
+        Ley 7600
+      </mat-checkbox>
+
+    </div>
+
+  </mat-card-content>
+
+  <mat-card-actions align="end">
+    <button 
+      mat-raised-button 
+      color="primary"
+      class="btnRegistrar"
+      [disabled]="form.invalid">
+
+      <mat-icon>save</mat-icon>
+      Registrar
+
+    </button>
+  </mat-card-actions>
+
+</mat-card>
+
+</form>

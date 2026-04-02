@@ -1,0 +1,40 @@
+<mat-sidenav-container class="container">
+
+  <!-- Sidebar -->
+  <mat-sidenav #sidenav mode="side" opened class="sidenav">
+    <h3>Menú</h3>
+    <button mat-button routerLink="/vehiculo">Registrar vehículo</button>
+    <button mat-button routerLink="/precios">Modificar precios</button>
+    <button mat-button routerLink="/pisos">Registrar pisos</button>
+    <button mat-button routerLink="/espacios">Seleccionar espacios</button>
+  </mat-sidenav>
+
+  <!-- Contenido -->
+  <mat-sidenav-content >
+
+    <!-- Navbar -->
+    <mat-toolbar color="primary" class="toolbar">
+     <button mat-icon-button (click)="sidenav.toggle()" class="menu-btn">
+        <mat-icon>menu</mat-icon>
+     </button>
+      <h1>SMART PARKING</h1>
+    </mat-toolbar>
+
+    <div class="main">
+
+      <!-- Contenido dinámico -->
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+
+      <!-- Footer -->
+      <mat-toolbar color="primary" class="footer">
+        <span>© 2026 Smart Parking</span>
+        <span class="spacer"></span>
+      </mat-toolbar>
+
+    </div>
+
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

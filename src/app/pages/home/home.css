@@ -1,0 +1,45 @@
+.container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+  padding: 10px;
+}
+
+mat-sidenav-content {
+  height: 100%;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 64px); /* resta navbar */
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+}
+.toolbar{
+  background-color: rgb(40, 28, 89);
+  color: #fff;
+}
+
+.footer {
+  height: 64px;
+  background-color: rgb(40, 28, 89);
+  color: #fff;
+
+  display: flex;
+  justify-content: center; 
+  align-items: center;      
+}
+
+.menu-btn mat-icon {
+  color: white;
+}
+
+.btnRedirigir{
+    color: #fff;
+}
