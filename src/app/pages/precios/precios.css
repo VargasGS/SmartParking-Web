@@ -27,3 +27,31 @@ mat-card-title {
     color: #fff;
     
 }
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+}
+
+.card-item {
+  width: 200px;
+}
+
+mat-card-content-individual {
+  display: flex;
+  gap: 10px;
+}
+
+.cardIndividual {
+  width: 170px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+

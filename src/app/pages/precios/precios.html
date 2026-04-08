@@ -1,64 +1,149 @@
 <form [formGroup]="form">
 
-<mat-card appearance="outlined">
+  <mat-card >
 
-  <mat-card-header>
-    <mat-card-title><h3>Modificar  precios según tipo de vehículo</h3></mat-card-title>
-    <mat-card-subtitle style="color: #fff;">Seleccione el precio a modificar</mat-card-subtitle>
-  </mat-card-header>
-<br>
-  <mat-card-content>
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Mantenimiento vehículos y sus precios</h3>
+      </mat-card-title>
+      <mat-card-subtitle style="color: #fff;"></mat-card-subtitle>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
 
-    <div class="form-row">
+      <div class="form-row">
 
         <!-- Tipo vehículo -->
-      <mat-form-field appearance="outline">
-        <mat-label>Tipo Vehículo</mat-label>
-        <mat-select formControlName="tipoVehiculo">
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo Vehículo</mat-label>
+          <mat-select formControlName="tipoVehiculo">
 
-          <mat-option value="carro">Carro</mat-option>
-          <mat-option value="moto">Moto</mat-option>
+            <mat-option value="carro">Carro</mat-option>
+            <mat-option value="moto">Moto</mat-option>
 
-        </mat-select>
+          </mat-select>
 
-        <mat-error *ngIf="form.get('tipoVehiculo')?.hasError('required')">
-          Seleccione un tipo de vehículo
-        </mat-error>
-      </mat-form-field>
+          <mat-error *ngIf="form.get('tipoVehiculo')?.hasError('required')">
+            Seleccione un tipo de vehículo
+          </mat-error>
+        </mat-form-field>
 
-      <!-- Precio -->
-      <mat-form-field appearance="outline">
-  <mat-label>Precio</mat-label>
+        <!-- Precio -->
+        <mat-form-field appearance="outline">
+          <mat-label>Precio en colones</mat-label>
 
-        <input matInput type="number" formControlName="precio">
+          <input matInput type="number" formControlName="precioC">
 
-            <mat-error *ngIf="form.get('precio')?.hasError('required')">
-                 El precio es obligatorio
-             </mat-error>
-    </mat-form-field>
+          <mat-error *ngIf="form.get('precioC')?.hasError('required')">
+            El precio es obligatorio
+          </mat-error>
+        </mat-form-field>
 
-      
+        <!-- Precio Dolares-->
+        <mat-form-field appearance="outline">
+          <mat-label>Precio en dólares</mat-label>
 
-    </div>
+          <input matInput type="number" formControlName="precioD">
 
-  </mat-card-content>
+          <mat-error *ngIf="form.get('precioD')?.hasError('required')">
+            El precio en dólares es obligatorio
+          </mat-error>
+        </mat-form-field>
 
-  <mat-card-actions align="end">
-    <button 
-      mat-raised-button 
-      color="primary"
-      class="btnRegistrar"
-      [disabled]="form.invalid">
+      </div>
 
-      <mat-icon>save</mat-icon>
-      Registrar
+    </mat-card-content>
 
-    </button>
-  </mat-card-actions>
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" class="btnRegistrar" [disabled]="form.invalid"
+        (click)="InsertTipoVehiculoPrecio()">
+
+        <mat-icon>save</mat-icon>
+        Registrar
+
+      </button>
+    </mat-card-actions>
+
+
+
+
+  </mat-card>
+  <br>
+
+  <!-- <mat-card appearance="outlined">
+
+
+   
+  <div class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="IdPago">
+      <th mat-header-cell *matHeaderCellDef> No. </th>
+      <td mat-cell *matCellDef="let element"> {{element.IdPago}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="TipoVehiculo">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.TipoVehiculo}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Precio">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.Precio}} </td>
+    </ng-container>
+
+   
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+                 showFirstLastButtons
+                 aria-label="Select page of periodic elements">
+  </mat-paginator>
+</div>
+
+
+  </mat-card>
+    -->
 
  
 
+    <div class="cards-container">
 
-</mat-card>
+      <mat-card *ngFor="let item of precios; let i = index" class="card-item" >
+
+        <mat-card-header>
+          <mat-card-title>
+            {{ item.tipoVehiculo | titlecase }}
+          </mat-card-title>
+        </mat-card-header>
+        <br>
+        <mat-form-field appearance="outline" class="cardIndividual">
+          <mat-label>Precio ₡</mat-label>
+          <input matInput type="number" #precioC [value]="item.precioC">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="cardIndividual">
+          <mat-label>Precio $</mat-label>
+          <input matInput type="number" #precioD [value]="item.precioD">
+        </mat-form-field>
+
+        <mat-card-actions align="end">
+          <button mat-icon-button color="warn" (click)="DeleteTipoVehiculoPrecio(i)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="UpdateTipoVehiculoPrecio(i, item.precioC, item.precioD)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </mat-card-actions>
+
+      </mat-card>
+
+    </div>
+
+
+
 
 </form>

@@ -4,7 +4,7 @@
   <mat-sidenav #sidenav mode="side" opened class="sidenav">
     <h3>Menú</h3>
     <button mat-button routerLink="/vehiculo">Registrar vehículo</button>
-    <button mat-button routerLink="/precios">Modificar precios</button>
+    <button mat-button routerLink="/precios">Mantenimiento de precios y vehículos</button>
     <button mat-button routerLink="/pisos">Registrar pisos</button>
     <button mat-button routerLink="/espacios">Seleccionar espacios</button>
   </mat-sidenav>
@@ -14,10 +14,14 @@
 
     <!-- Navbar -->
     <mat-toolbar color="primary" class="toolbar">
+       <img src="Logo_SmartParking2.png" class="logo">
+
      <button mat-icon-button (click)="sidenav.toggle()" class="menu-btn">
         <mat-icon>menu</mat-icon>
      </button>
+     
       <h1>SMART PARKING</h1>
+     
     </mat-toolbar>
 
     <div class="main">
