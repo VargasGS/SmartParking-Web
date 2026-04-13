@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +14,12 @@ import { ViewChild, AfterViewInit } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
+import { TipoVehiculo } from 'src/app/models/tipo-vehiculo/tipo-vehiculo';
+import { TipoVehiculoService } from 'src/app/services/tipo-vehiculo/tipo-vehiculo.service';
+//import 'sweetalert2/src/sweetalert2.scss';
+import Swal from 'sweetalert2';
+import { Inject } from '@angular/core';
+
 @Component({
   selector: 'app-precios',
   imports: [  ReactiveFormsModule,
@@ -28,7 +34,7 @@ import { CommonModule } from '@angular/common';
     MatTableModule,
     MatPaginatorModule],
   templateUrl: './precios.html',
-  styleUrl: './precios.css',
+  styleUrl: './precios.css'
 })
 export class PreciosComponent implements AfterViewInit {
 
@@ -51,7 +57,11 @@ export class PreciosComponent implements AfterViewInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private fb: FormBuilder) {
+  constructor( private fb: FormBuilder,
+    private tipoVehiculoServicio: TipoVehiculoService
+) {
+
+
     this.form = this.fb.group({
       tipoVehiculo: ['', Validators.required],
       precioC: ['', [Validators.required, Validators.minLength(5)]],
@@ -64,6 +74,43 @@ export class PreciosComponent implements AfterViewInit {
   }
 
   //Métodos CRUD
+
+  guardarTipoVehiculo(){
+    var tipoVehiculoPrecio ={
+      idTipoVehiculo:this.form.value.tipoVehiculo,
+      precioColones:this.form.value.precioC,
+      precioDolares:this.form.value.precioD,
+
+    } as unknown as TipoVehiculo
+
+    this.tipoVehiculoServicio.guardarTipoVehiculo(tipoVehiculoPrecio).subscribe(
+      {
+       next: (res) => {
+            Swal.fire({
+              title: '',
+              text: 'El tipo de vehículo se registró correctamente',
+              icon: 'success',
+              confirmButtonText: 'Aceptar'
+            });
+
+        
+          
+          },
+          error: (e) =>{
+            console.error(e)
+            Swal.fire({
+              title: '',
+              text: 'Error al registrar el tipo de vehículo',
+              icon: 'error',
+              confirmButtonText: 'Aceptar'
+            });
+        
+          } 
+    
+        }
+      )
+      
+  }
 
    InsertTipoVehiculoPrecio() {
     if (this.form.valid) {
