@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { TipoVehiculoApi } from "./tipo-vehiculo.api";
 import { TipoVehiculo , TipoVehiculoData} from "../../models/tipo-vehiculo/tipo-vehiculo";
-
+import { map } from 'rxjs/operators';
 
 
 
@@ -19,11 +19,21 @@ export class TipoVehiculoService extends TipoVehiculoData {
     guardarTipoVehiculo(item: any): Observable<TipoVehiculo> {
         return this.api.guardarTipoVehiculo(item);
       }
-  /*  
-    listRecetasActivas(): Observable<RecetaActiva[]> {
-        return this.api.listRecetasActivas();  
-    }
-
+    
+    obtenerTipoVehiculo(): Observable<TipoVehiculo[]> {
+        return this.api.ObtenerTipoVehiculo().pipe(
+            map(res => res.data.map((x: any) => ({
+            tipoVehiculoDescripcion: x.descripcionTipoVehiculo,
+            idTipoVehiculo: x.idTipoVehiculo,
+            precio: {
+                IdPrecio: x.idPrecio,
+                PrecioColones: Number(x.montoPrecioColones),
+                PrecioDolares: Number(x.montoPrecioDolares)
+            }
+            })))
+  );
+}
+/*
     listRecetaByCedula(cedula: number): Observable<EstadoReceta[]> {
         return this.api.getlistRecetaByCedula(cedula);  
     }

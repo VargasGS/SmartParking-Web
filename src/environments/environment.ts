@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrlSmartParking: 'https://localhost:7028',
+  // apiUrlSmartParking: 'http://192.168.100.168:8080',
 };
 
 /*

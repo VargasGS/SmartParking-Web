@@ -40,21 +40,14 @@ export class PreciosComponent implements AfterViewInit {
 
   form;
 
-  precios: any[] = [
-  { tipoVehiculo: 'carro', precioC: 2, precioD: 1000 },
-  { tipoVehiculo: 'moto', precioC: 1, precioD: 500 }
-];
+  listaTipoVehiculo: TipoVehiculo[] = [];
+
+
    editIndex: number | null = null;
 
  //* displayedColumns: string[] = ['IdPago', 'TipoVehiculo', 'Precio'];
 
-  dataSource = new MatTableDataSource([
-    { IdPago: 1, TipoVehiculo: 'Carro', Precio: 1200},
-    { IdPago: 2, TipoVehiculo: 'Moto', Precio: 300},
-    { IdPago: 3, TipoVehiculo: 'Bicicleta', Precio: 15 },
-    { IdPago: 4, TipoVehiculo: 'Bus', Precio: 5000 },
-  ]);
-
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor( private fb: FormBuilder,
@@ -70,31 +63,52 @@ export class PreciosComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+    
   }
+
+  ngOnInit(): void {
+  this.obtenerTipoVehiculo();
+}
 
   //Métodos CRUD
 
+   limpiarCampos(){
+    this.form.reset();
+  }
+
   guardarTipoVehiculo(){
-    var tipoVehiculoPrecio ={
-      idTipoVehiculo:this.form.value.tipoVehiculo,
-      precioColones:this.form.value.precioC,
-      precioDolares:this.form.value.precioD,
 
-    } as unknown as TipoVehiculo
+   const tipoVehiculo: TipoVehiculo = {
+    tipoVehiculoDescripcion: this.form.value.tipoVehiculo ?? '',
+    idTipoVehiculo: 0,
+    precio: {
+      IdPrecio: 0,
+      PrecioColones: Number(this.form.value.precioC),
+      PrecioDolares: Number(this.form.value.precioD),
+    }
+  };
 
-    this.tipoVehiculoServicio.guardarTipoVehiculo(tipoVehiculoPrecio).subscribe(
+    this.tipoVehiculoServicio.guardarTipoVehiculo(tipoVehiculo).subscribe(
       {
        next: (res) => {
-            Swal.fire({
-              title: '',
-              text: 'El tipo de vehículo se registró correctamente',
-              icon: 'success',
-              confirmButtonText: 'Aceptar'
-            });
-
         
-          
+       this.listaTipoVehiculo = [
+       ...this.listaTipoVehiculo,
+             tipoVehiculo
+        ];
+
+      this.limpiarCampos();
+      this.obtenerTipoVehiculo();
+
+
+                Swal.fire({
+                title: '',
+                text: 'El tipo de vehículo se registró correctamente',
+                icon: 'success',
+                confirmButtonText: 'Aceptar'
+              
+        });
+
           },
           error: (e) =>{
             console.error(e)
@@ -108,9 +122,31 @@ export class PreciosComponent implements AfterViewInit {
           } 
     
         }
+
+        
       )
+
+      
       
   }
+
+  obtenerTipoVehiculo() {
+  this.tipoVehiculoServicio.obtenerTipoVehiculo().subscribe({
+    next: (res) => {
+     this.listaTipoVehiculo = [...res];
+      console.log('Lista de tipos de vehículo:', res);
+    },
+    error: (e) => {
+      console.error(e);
+      Swal.fire({
+        title: '',
+        text: 'Error al obtener los tipos de vehículo',
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+      });
+    }
+  });
+}
 
    InsertTipoVehiculoPrecio() {
     if (this.form.valid) {
@@ -122,14 +158,14 @@ export class PreciosComponent implements AfterViewInit {
 
       };
 
-      this.precios.push(nuevo);
+      //this.precios.push(nuevo);
 
       this.form.reset();
     }
   }
 
    DeleteTipoVehiculoPrecio(index: number) {
-    this.precios.splice(index, 1);
+    //this.precios.splice(index, 1);
   }
 
    UpdateTipoVehiculoPrecio(index: number, precioC:any, precioD:any) {
@@ -138,7 +174,9 @@ export class PreciosComponent implements AfterViewInit {
 
   if (!colones || !dolares) return;
 
-  this.precios[index].precioC = colones;
-  this.precios[index].precioD = dolares;
+  //this.precios[index].precioC = colones;
+  //this.precios[index].precioD = dolares;
   }
+
+ 
 }

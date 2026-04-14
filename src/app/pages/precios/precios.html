@@ -13,18 +13,14 @@
 
       <div class="form-row">
 
-        <!-- Tipo vehículo -->
+      <!-- Tipo vehículo -->
         <mat-form-field appearance="outline">
-          <mat-label>Tipo Vehículo</mat-label>
-          <mat-select formControlName="tipoVehiculo">
+          <mat-label>Tipo vehículo</mat-label>
 
-            <mat-option value="carro">Carro</mat-option>
-            <mat-option value="moto">Moto</mat-option>
-
-          </mat-select>
+          <input matInput type="text" formControlName="tipoVehiculo">
 
           <mat-error *ngIf="form.get('tipoVehiculo')?.hasError('required')">
-            Seleccione un tipo de vehículo
+            El tipo vehiculo es obligatorio
           </mat-error>
         </mat-form-field>
 
@@ -110,40 +106,41 @@
 
  
 
-    <div class="cards-container">
+ <div class="cards-container">
 
-      <mat-card *ngFor="let item of precios; let i = index" class="card-item" >
+  <mat-card *ngFor="let item of listaTipoVehiculo; let i = index" class="card-item">
 
-        <mat-card-header>
-          <mat-card-title>
-            {{ item.tipoVehiculo | titlecase }}
-          </mat-card-title>
-        </mat-card-header>
-        <br>
-        <mat-form-field appearance="outline" class="cardIndividual">
-          <mat-label>Precio ₡</mat-label>
-          <input matInput type="number" #precioC [value]="item.precioC">
-        </mat-form-field>
+    <mat-card-header>
+      <mat-card-title>
+        {{ item.tipoVehiculoDescripcion | titlecase }}
+      </mat-card-title>
+    </mat-card-header>
 
-        <mat-form-field appearance="outline" class="cardIndividual">
-          <mat-label>Precio $</mat-label>
-          <input matInput type="number" #precioD [value]="item.precioD">
-        </mat-form-field>
+    <br>
 
-        <mat-card-actions align="end">
-          <button mat-icon-button color="warn" (click)="DeleteTipoVehiculoPrecio(i)">
-            <mat-icon>delete</mat-icon>
-          </button>
-          <button mat-icon-button color="warn" (click)="UpdateTipoVehiculoPrecio(i, item.precioC, item.precioD)">
-            <mat-icon>edit</mat-icon>
-          </button>
-        </mat-card-actions>
+    <mat-form-field appearance="outline" class="cardIndividual">
+      <mat-label>Precio ₡</mat-label>
+      <input matInput type="number" #precioC [value]="item.precio?.PrecioColones">
+    </mat-form-field>
 
-      </mat-card>
+    <mat-form-field appearance="outline" class="cardIndividual">
+      <mat-label>Precio $</mat-label>
+      <input matInput type="number" #precioD [value]="item.precio?.PrecioDolares">
+    </mat-form-field>
 
-    </div>
+    <mat-card-actions align="end">
+      <button mat-icon-button color="warn" (click)="DeleteTipoVehiculoPrecio(i)">
+        <mat-icon>delete</mat-icon>
+      </button>
 
+      <button mat-icon-button color="primary" (click)="UpdateTipoVehiculoPrecio(i, precioC, precioD)">
+        <mat-icon>edit</mat-icon>
+      </button>
+    </mat-card-actions>
 
+  </mat-card>
+
+</div>
 
 
 </form>
