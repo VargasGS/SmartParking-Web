@@ -12,6 +12,7 @@ import { TipoVehiculo } from "@app/models/tipo-vehiculo/tipo-vehiculo";
 })
 export class TipoVehiculoApi {
     private readonly apiUrlController: string =`${environment.apiUrlSmartParking }/api/TipoVehiculo`;
+    private readonly apiUrlControllerPrecio: string =`${environment.apiUrlSmartParking }/api/Precio`;
 
 
     constructor(private http: HttpClient) {}
@@ -22,7 +23,17 @@ export class TipoVehiculoApi {
 
       ObtenerTipoVehiculo(): Observable<GenericResponse<TipoVehiculo[]>> {
       return this.http.get<GenericResponse<TipoVehiculo[]>>(this.apiUrlController);
-}
+      }
+
+      actualizarPrecio(item: any): Observable<any> {
+        return this.http.put(this.apiUrlControllerPrecio, item);    
+      }
+
+      eliminarTipoVehiculo(item: any): Observable<any> {
+          return this.http.delete(this.apiUrlController, {
+            body: item
+          });
+      }
 
 /*
       getlistRecetaByCedula(cedula: number): Observable<any[]> {

@@ -1,0 +1,57 @@
+.form-row {
+  display: flex;
+  flex-wrap: wrap; /* para que no se rompa en pantallas pequeñas */
+  gap: 16px; /* espacio entre componentes */
+  align-items: center;
+}
+
+/* Tamaño de inputs */
+.mat-form-field {
+  width: 250px;
+}
+
+.btnRegistrar{
+    background-color: rgb(133, 199, 154);
+    color: #fff;
+    text-align: center;
+}
+
+mat-card-header {
+    background-color: rgb(133, 199, 154);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    
+}
+
+mat-card-title {
+    color: #fff;
+    
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+
+}
+
+.card-item {
+  width: 200px;
+}
+
+mat-card-content-individual {
+  display: flex;
+  gap: 10px;
+}
+
+.cardIndividual {
+ 
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
