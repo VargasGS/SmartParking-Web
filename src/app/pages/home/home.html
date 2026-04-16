@@ -3,25 +3,27 @@
   <!-- Sidebar -->
   <mat-sidenav #sidenav mode="side" opened class="sidenav">
     <h3>Menú</h3>
-    <button mat-button routerLink="/vehiculo">Registrar vehículo</button>
-    <button mat-button routerLink="/precios">Mantenimiento de precios y vehículos</button>
-    <button mat-button routerLink="/pisos">Registrar pisos</button>
-    <button mat-button routerLink="/espacios">Seleccionar espacios</button>
+
+    <button mat-button routerLink="/precios">Mantenimiento precios</button>
+    <button mat-button routerLink="/pisos">Mantenimiento de pisos</button>
+    <button mat-button routerLink="/vehiculo">Registro de vehículos</button>
   </mat-sidenav>
 
   <!-- Contenido -->
-  <mat-sidenav-content >
+  <mat-sidenav-content>
 
     <!-- Navbar -->
     <mat-toolbar color="primary" class="toolbar">
-       <img src="Logo_SmartParking2.png" class="logo">
+      <a routerLink="/dashboard">
+        <img src="Logo_SmartParking2.png" class="logo">
+      </a>
 
-     <button mat-icon-button (click)="sidenav.toggle()" class="menu-btn">
+      <button mat-icon-button (click)="sidenav.toggle()" class="menu-btn">
         <mat-icon>menu</mat-icon>
-     </button>
-     
+      </button>
+
       <h1>SMART PARKING</h1>
-     
+
     </mat-toolbar>
 
     <div class="main">

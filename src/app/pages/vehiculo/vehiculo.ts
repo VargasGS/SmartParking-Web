@@ -175,7 +175,7 @@ export class VehiculoComponent {
     this.vehiculoCampoServicio.guardarVehiculoCampo(vehiculoCampo).subscribe({
       next: (res) => {
         console.log(res);
-        // this.obtenerTipoVehiculo();
+       this.obtenerVehiculoCampo();
         this.cdr.detectChanges();
 
         Swal.fire({

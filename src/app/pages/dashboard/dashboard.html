@@ -1,1 +1,29 @@
-<p>dashboard works!</p>
+<h2 style="margin-bottom: 20px; font-weight: 500;">
+  Dashboard
+</h2>
+<div class="kpi-container">
+
+  <mat-card class="kpi-card kpi-blue">
+    <div class="kpi-content">
+      <span>Vehículos Activos</span>
+      <h1>{{ totalVehiculos }}</h1>
+    </div>
+  </mat-card>
+
+  <mat-card class="kpi-card kpi-green">
+    <div class="kpi-content">
+      <span>Ingresos actuales</span>
+      <h1>₡{{ ingresosActuales }}</h1>
+    </div>
+  </mat-card>
+
+</div>
+<mat-card>
+  <mat-card-title style="margin-bottom: 10px;">
+    Vehículos por tipo
+  </mat-card-title>
+
+  <mat-card-content>
+    <canvas id="miGrafico"></canvas>
+  </mat-card-content>
+</mat-card>

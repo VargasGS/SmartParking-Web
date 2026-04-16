@@ -28,7 +28,10 @@ import { PisoService } from 'src/app/services/pisos/pisos.service';
 
 import Swal from 'sweetalert2';
 import { Campo, TipoCampo } from '@app/models/pisos/piso';
+import { GenericResponse } from '@app/models/GenericResponse'
 import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource } from '@angular/material/table';
+
 
 @Component({
   selector: 'app-pisos',
@@ -63,11 +66,11 @@ export class PisosComponent implements OnInit, AfterViewInit {
     'idCampo',
     'numeroPiso',
     'cantidadCampos',
-    'tipoCampo',
+    'tipoCampoDesc',
     'ley7600'
   ];
 
-  dataSource: any[] = [];
+  dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -93,9 +96,38 @@ export class PisosComponent implements OnInit, AfterViewInit {
 
     this.obtenerTipoCampo();
     this.obtenerCampo();
+
+    this.dataSource.filterPredicate = (data: Campo, filter: string) => {
+
+      const texto = `
+      ${data.idCampo}
+      ${data.cantidadCampos}
+      ${data.piso?.numeroPiso}
+      ${data.tipoCampo?.tipoCampoDesc}
+      ${data.ley7600 ? 'si' : 'no'}
+    `.toLowerCase();
+
+      return texto.includes(filter);
+    };
+
+
   }
 
-  ngAfterViewInit() { }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+  }
+
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+
+  }
+
 
   trackByFn(index: number, item: TipoCampo): any {
     return item.idTipoCampo;
@@ -104,6 +136,11 @@ export class PisosComponent implements OnInit, AfterViewInit {
   limpiarCampos() {
     this.form.reset();
   }
+
+  limpiarCamposCampo() {
+    this.formCampo.reset();
+  }
+
 
 
   guardarTipoCampo() {
@@ -116,20 +153,35 @@ export class PisosComponent implements OnInit, AfterViewInit {
     };
 
     this.PisoServicio.guardarTipoCampo(tipoCampo).subscribe({
-      next: () => {
+      next: (res: GenericResponse<number>) => {
 
-        this.obtenerTipoCampo();
-        this.cdr.detectChanges();
+        if (res.success && res.data === 1) {
 
-        Swal.fire({
-          text: 'Registrado correctamente',
-          icon: 'success'
-        });
+          this.obtenerTipoCampo();
+          this.cdr.detectChanges();
 
-        this.limpiarCampos();
+          Swal.fire({
+            text: res.message || 'Registrado correctamente',
+            icon: 'success'
+          });
+
+          this.limpiarCampos();
+
+        } else {
+
+          Swal.fire({
+            text: res.message || 'No se pudo registrar',
+            icon: 'warning'
+          });
+
+        }
+
       },
       error: () => {
-        Swal.fire({ text: 'Error al registrar', icon: 'error' });
+        Swal.fire({
+          text: 'Error al registrar',
+          icon: 'error'
+        });
       }
     });
   }
@@ -168,25 +220,41 @@ export class PisosComponent implements OnInit, AfterViewInit {
       }
     };
 
-    console.log(campo);
-
     this.PisoServicio.guardarCampo([campo]).subscribe({
-      next: () => {
+      next: (res: GenericResponse<number>) => {
 
-        this.formCampo.reset({
-          ley7600: false
-        });
+        if (res.success) {
 
-        this.cdr.detectChanges();
+          this.formCampo.reset({
+            ley7600: false
+          });
 
-        Swal.fire({
-          text: 'Registrado correctamente',
-          icon: 'success'
-        });
+          this.limpiarCamposCampo();
+
+          this.cdr.detectChanges();
+
+          this.obtenerCampo();
+
+          Swal.fire({
+            text: res.message || 'Registrado correctamente',
+            icon: 'success'
+          });
+
+        } else {
+
+          Swal.fire({
+            text: res.message || 'No se pudo registrar',
+            icon: 'warning'
+          });
+
+        }
 
       },
       error: () => {
-        Swal.fire({ text: 'Error al registrar', icon: 'error' });
+        Swal.fire({
+          text: 'Error al registrar',
+          icon: 'error'
+        });
       }
     });
 
@@ -196,13 +264,12 @@ export class PisosComponent implements OnInit, AfterViewInit {
     this.PisoServicio.obtenerCampo().subscribe({
       next: (res) => {
 
-        this.CamposList = res ?? [];
-
-        this.dataSource = this.CamposList;
+        // this.CamposList = res ?? [];
+        this.dataSource.data = res ?? [];
+        this.dataSource.paginator = this.paginator;
 
         this.cdr.detectChanges();
 
-        console.log(this.CamposList);
       }
     });
   }

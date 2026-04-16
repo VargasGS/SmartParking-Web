@@ -5,6 +5,8 @@ import { PisosApi } from "./pisos.api";
 import { Precio, TipoVehiculo, TipoVehiculoData } from "../../models/tipo-vehiculo/tipo-vehiculo";
 import { map } from 'rxjs/operators';
 import { Campo, Piso, PisoData, TipoCampo } from "@app/models/pisos/piso";
+import { GenericResponse } from '@app/models/GenericResponse';
+
 
 
 
@@ -17,14 +19,13 @@ export class PisoService extends PisoData {
         super();
     }
 
-    guardarCampo(item: any): Observable<Piso> {
+    guardarCampo(item: Campo[]): Observable<GenericResponse<number>> {
         return this.api.guardarCampo(item);
     }
 
-    guardarTipoCampo(item: any): Observable<TipoCampo> {
+    guardarTipoCampo(item: TipoCampo): Observable<GenericResponse<number>> {
         return this.api.guardarTipoCampo(item);
     }
-
 
     obtenerCampo(): Observable<Campo[]> {
         return this.api.ObtenerCampo().pipe(

@@ -1,4 +1,5 @@
 import { Observable } from "rxjs";
+import { GenericResponse } from "../GenericResponse";
 
 export interface Campo {
   idCampo: number;
@@ -22,9 +23,9 @@ export interface TipoCampo {
 }
 
 export abstract class PisoData {
-    abstract guardarCampo(item: Piso): Observable<Piso>;
+    abstract guardarCampo(item: Campo[]): Observable<GenericResponse<number>>;
     abstract obtenerCampo(): Observable<Campo[]>;
-    abstract guardarTipoCampo(item: TipoCampo): Observable<TipoCampo>;
+    abstract guardarTipoCampo(item: TipoCampo): Observable<GenericResponse<number>>;
     abstract obtenerTipoCampo(): Observable<TipoCampo[]>;
    // abstract listRecetaByCedula(cedula: number): Observable<EstadoReceta[]>;
 }
