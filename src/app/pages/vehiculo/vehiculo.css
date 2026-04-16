@@ -1,7 +1,9 @@
 .form-row {
   display: flex;
-  flex-wrap: wrap; /* para que no se rompa en pantallas pequeñas */
-  gap: 16px; /* espacio entre componentes */
+  flex-wrap: wrap;
+  /* para que no se rompa en pantallas pequeñas */
+  gap: 16px;
+  /* espacio entre componentes */
   align-items: center;
 }
 
@@ -10,20 +12,22 @@ mat-form-field {
   width: 250px;
 }
 
-.btnRegistrar{
-    background-color: rgb(133, 199, 154);
-    color: #fff;
-    text-align: center;
+.btnRegistrar {
+  background-color: rgb(133, 199, 154);
+  color: #fff;
+  text-align: center;
 }
 
 mat-card-header {
-    background-color: rgb(133, 199, 154);
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    
+  background-color: rgb(133, 199, 154);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  justify-content: center;
+
+
 }
 
 mat-card-title {
-    color: #fff;
-    
+  color: #fff;
+
 }

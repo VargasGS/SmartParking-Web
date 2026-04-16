@@ -6,7 +6,8 @@
       <mat-card-title>
         <h3>Registro de Vehículo</h3>
       </mat-card-title>
-      <mat-card-subtitle style="color: #fff;">Ingrese la información</mat-card-subtitle>
+  <!-- <mat-card-subtitle style="color: #fff;">Ingrese la información</mat-card-subtitle>
+      -->   
     </mat-card-header>
     <br>
     <mat-card-content>
@@ -61,7 +62,7 @@
 
     <mat-card-header>
       <mat-card-title>
-        <h3>Listado de vehiculos registrados</h3>
+        <h3>Listado de vehÍculos registrados</h3>
       </mat-card-title>
     </mat-card-header>
     <br>
@@ -85,7 +86,7 @@
           </ng-container>
 
           <ng-container matColumnDef="descripcionTipoVehiculo">
-            <th mat-header-cell *matHeaderCellDef> Descripcion tipo vehiculo </th>
+            <th mat-header-cell *matHeaderCellDef> Descripción tipo vehiculo </th>
             <td mat-cell *matCellDef="let element">
               {{ element.descripcionTipoVehiculo }}
             </td>
@@ -101,19 +102,19 @@
           <ng-container matColumnDef="fechaProceso">
             <th mat-header-cell *matHeaderCellDef> Fecha proceso </th>
             <td mat-cell *matCellDef="let element">
-              {{ element.fechaProceso }}
+              {{ element.fechaProceso | date:'dd/MM/yyyy HH:MM'}}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="montoPrecioColones">
-            <th mat-header-cell *matHeaderCellDef> Precio colones </th>
+            <th mat-header-cell *matHeaderCellDef> Precio ₡ </th>
             <td mat-cell *matCellDef="let element">
               {{ element.montoPrecioColones }}
             </td>
           </ng-container>
 
           <ng-container matColumnDef="montoPrecioDolares">
-            <th mat-header-cell *matHeaderCellDef> Precio dólares </th>
+            <th mat-header-cell *matHeaderCellDef> Precio $ </th>
             <td mat-cell *matCellDef="let element">
               {{ element.montoPrecioDolares }}
             </td>
@@ -123,7 +124,7 @@
             <th mat-header-cell *matHeaderCellDef> Acciones </th>
 
             <td mat-cell *matCellDef="let element">
-              <button  (click)="actualizarVehiculoCampo(element)">
+              <button matMiniFab (click)="actualizarVehiculoCampo(element)">
                 <mat-icon>exit_to_app</mat-icon>
               </button>
             </td>
@@ -137,6 +138,8 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
         </table>
+         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
 
       </div>
 

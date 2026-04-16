@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { VehiculoCampoService } from 'src/app/services/vehiculo-campo/vehiculo-campo.service';
-import { VehiculoCampo, VehiculoCampoRequest } from '@app/models/vehiculo-campo/vehiculo-campo';
+import { IngresoDia, VehiculoCampo, VehiculoCampoRequest } from '@app/models/vehiculo-campo/vehiculo-campo';
 import { MatCardModule } from '@angular/material/card';
 import { Chart } from 'chart.js/auto';
 import { ChangeDetectorRef } from '@angular/core';
@@ -20,9 +20,14 @@ import { ChangeDetectorRef } from '@angular/core';
 export class DashboardComponent {
 
   VehiculoCampoList: VehiculoCampoRequest[] = [];
+  IngresosDiasList: IngresoDia[] = [];
 
   totalVehiculos: number = 0;
   ingresosActuales: number = 0;
+
+  ingresosActualesColones: number = 0;
+  ingresosActualesDolares: number = 0;
+
 
   chart: any;
   graficoInicializado: boolean = false;
@@ -30,7 +35,7 @@ export class DashboardComponent {
 
   constructor(
     private vehiculoCampoServicio: VehiculoCampoService,
-     private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef
 
   ) {
 
@@ -38,6 +43,7 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     this.obtenerVehiculoCampo();
+    this.ObtenerIngresosDia();
   }
 
   crearGrafico(res: any[]) {
@@ -64,7 +70,10 @@ export class DashboardComponent {
         datasets: [{
           label: 'Vehículos por tipo',
           data: data,
-          borderRadius: 8
+          borderRadius: 8,
+          backgroundColor: '#281C59',
+          borderColor: '#4E8D9C',
+          borderWidth: 1
         }]
       },
       options: {
@@ -87,24 +96,36 @@ export class DashboardComponent {
   }
 
   obtenerVehiculoCampo() {
-  this.vehiculoCampoServicio.obtenerVehiculoCampo().subscribe({
-    next: (res) => {
+    this.vehiculoCampoServicio.obtenerVehiculoCampo().subscribe({
+      next: (res) => {
 
-      this.VehiculoCampoList = res ?? [];
+        this.VehiculoCampoList = res ?? [];
 
-      // KPIs
-      this.totalVehiculos = this.VehiculoCampoList.length;
+        // KPIs
+        this.totalVehiculos = this.VehiculoCampoList.length;
 
-      this.ingresosActuales = this.VehiculoCampoList.reduce((acc, v) => {
-        return acc + (v.montoPrecioColones || 0);
-      }, 0);
+        this.ingresosActuales = this.VehiculoCampoList.reduce((acc, v) => {
+          return acc + (v.montoPrecioColones || 0);
+        }, 0);
 
-      setTimeout(() => {
-        this.crearGrafico(this.VehiculoCampoList);
-      });
+        setTimeout(() => {
+          this.crearGrafico(this.VehiculoCampoList);
+        });
 
-      console.log(this.VehiculoCampoList);
-    }
-  });
-}
+        console.log(this.VehiculoCampoList);
+      }
+    });
+  }
+
+  ObtenerIngresosDia() {
+    this.vehiculoCampoServicio.ObtenerIngresosDia().subscribe({
+      next: (res) => {
+console.log(res.ingresosColones, res.ingresosDolares);
+        
+        this.ingresosActualesColones = res.ingresosColones;
+        this.ingresosActualesDolares = res.ingresosDolares;
+        console.log(this.ingresosActualesColones, this.ingresosActualesDolares);
+      }
+    });
+  }
 }

@@ -2,8 +2,9 @@
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { map } from 'rxjs/operators';
-import { VehiculoCampo, VehiculoCampoData,VehiculoCampoRequest } from "@app/models/vehiculo-campo/vehiculo-campo";
+import { IngresoDia, VehiculoCampo, VehiculoCampoData, VehiculoCampoRequest } from "@app/models/vehiculo-campo/vehiculo-campo";
 import { VehiculoCampoApi } from "./vehiculo-campo.api";
+import { GenericResponse } from "@app/models/GenericResponse";
 
 
 
@@ -16,7 +17,7 @@ export class VehiculoCampoService extends VehiculoCampoData {
         super();
     }
 
-    guardarVehiculoCampo(item: any): Observable<VehiculoCampo> {
+    guardarVehiculoCampo(item: VehiculoCampo): Observable<GenericResponse<number>> {
         return this.api.guardarVehiculoCampo(item);
     }
 
@@ -27,9 +28,13 @@ export class VehiculoCampoService extends VehiculoCampoData {
     }
 
     actualizarVehiculoCampo(item: any): Observable<VehiculoCampo> {
-           return this.api.actualizarVehiculoCampo(item);
-       }
-   
+        return this.api.actualizarVehiculoCampo(item);
+    }
 
 
+    ObtenerIngresosDia(): Observable<IngresoDia> {
+        return this.api.ObtenerIngresosDia().pipe(
+            map(res => res.data)
+        );
+    }
 }

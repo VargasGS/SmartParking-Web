@@ -30,11 +30,11 @@
 
 /* Colores */
 .kpi-blue {
-  background: linear-gradient(135deg, #3f51b5, #5a55ae);
+  background: linear-gradient(135deg, #4E8D9C, #EDF7BD);
 }
 
 .kpi-green {
-  background: linear-gradient(135deg, #4caf50, #2ecc71);
+  background: linear-gradient(135deg, #85C79A, #EDF7BD);
 }
 
 /* Cards generales */
@@ -47,3 +47,4 @@ mat-card {
 canvas {
   max-height: 300px;
 }
+

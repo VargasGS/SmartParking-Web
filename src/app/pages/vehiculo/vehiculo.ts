@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+
 
 
 
@@ -29,6 +31,7 @@ import { VehiculoCampoService } from 'src/app/services/vehiculo-campo/vehiculo-c
 import { VehiculoCampo, VehiculoCampoRequest } from '@app/models/vehiculo-campo/vehiculo-campo';
 
 import Swal from 'sweetalert2';
+import { GenericResponse } from '@app/models/GenericResponse';
 
 
 @Component({
@@ -46,7 +49,8 @@ import Swal from 'sweetalert2';
     MatIconModule,
     MatCardModule,
     CommonModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
 
   ],
   templateUrl: './vehiculo.html',
@@ -73,6 +77,9 @@ export class VehiculoComponent {
     'acciones'
   ];
 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+
 
 
   constructor(private fb: FormBuilder,
@@ -95,6 +102,10 @@ export class VehiculoComponent {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   obtenerTipoVehiculo() {
@@ -113,6 +124,7 @@ export class VehiculoComponent {
       next: (res) => {
 
         this.dataSource.data = res ?? [];
+        this.dataSource.paginator = this.paginator;
         console.log(this.dataSource);
         this.cdr.detectChanges();
       }
@@ -173,17 +185,22 @@ export class VehiculoComponent {
 
 
     this.vehiculoCampoServicio.guardarVehiculoCampo(vehiculoCampo).subscribe({
-      next: (res) => {
+      next: (res: GenericResponse<number>) => {
+
         console.log(res);
-       this.obtenerVehiculoCampo();
-        this.cdr.detectChanges();
+        if (res.success) {
+          this.obtenerVehiculoCampo();
+          this.cdr.detectChanges();
 
-        Swal.fire({
-          text: 'Registrado correctamente',
-          icon: 'success'
-        });
+          Swal.fire({
+            text: 'Registrado correctamente',
+            icon: 'success'
+          });
 
-        this.limpiarCampos();
+          this.limpiarCampos();
+        }
+
+
       },
       error: () => {
         Swal.fire({ text: 'Error al registrar', icon: 'error' });
@@ -191,7 +208,7 @@ export class VehiculoComponent {
     });
 
   }
-  actualizarVehiculoCampo(elemet:VehiculoCampoRequest) {
+  actualizarVehiculoCampo(elemet: VehiculoCampoRequest) {
 
     const vehiculoCampo: VehiculoCampo = {
       idVehiculoCampo: elemet.idVehiculoCampo,
@@ -237,7 +254,6 @@ export class VehiculoComponent {
       }
     };
 
-    console.log(vehiculoCampo);
 
 
     this.vehiculoCampoServicio.actualizarVehiculoCampo(vehiculoCampo).subscribe({
@@ -245,6 +261,7 @@ export class VehiculoComponent {
         // this.obtenerTipoVehiculo();
         console.log(res);
         this.cdr.detectChanges();
+        this.obtenerVehiculoCampo();
 
         Swal.fire({
           text: 'Se registró la salida del vehiculo correctamente',

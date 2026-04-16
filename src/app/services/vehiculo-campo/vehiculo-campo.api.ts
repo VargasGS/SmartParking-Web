@@ -5,37 +5,36 @@ import { environment } from '@env/environment';
 import { HttpClient } from '@angular/common/http';
 import { GenericResponse } from '@app/models/GenericResponse';
 import { TipoVehiculo } from "@app/models/tipo-vehiculo/tipo-vehiculo";
-import { VehiculoCampo, VehiculoCampoRequest } from "@app/models/vehiculo-campo/vehiculo-campo";
+import { IngresoDia, VehiculoCampo, VehiculoCampoRequest } from "@app/models/vehiculo-campo/vehiculo-campo";
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class VehiculoCampoApi {
-    private readonly apiUrlController: string =`${environment.apiUrlSmartParking }/api/VehiculoCampo`;
+  private readonly apiUrlController: string = `${environment.apiUrlSmartParking}/api/VehiculoCampo`;
 
 
-    constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
-      guardarVehiculoCampo(item: any): Observable<any> {
-        return this.http.post(this.apiUrlController, item);    
-      }
+  guardarVehiculoCampo(item: VehiculoCampo): Observable<GenericResponse<number>> {
+    return this.http.post<GenericResponse<number>>(
+      this.apiUrlController+'/Create',
+      item
+    );
+  }
 
-      ObtenerVehiculoCampo(): Observable<GenericResponse<VehiculoCampoRequest[]>> {
-      return this.http.get<GenericResponse<VehiculoCampoRequest[]>>(this.apiUrlController);
-      }
+  ObtenerVehiculoCampo(): Observable<GenericResponse<VehiculoCampoRequest[]>> {
+    return this.http.get<GenericResponse<VehiculoCampoRequest[]>>(this.apiUrlController+'/GetAll');
+  }
 
-      actualizarVehiculoCampo(item: any): Observable<any> {
-        return this.http.put(this.apiUrlController, item);    
-      }
+  actualizarVehiculoCampo(item: any): Observable<any> {
+    return this.http.put(this.apiUrlController+'/Finish', item);
+  }
 
-    
+   ObtenerIngresosDia(): Observable<GenericResponse<IngresoDia>> {
+    return this.http.get<GenericResponse<IngresoDia>>(this.apiUrlController+'/GetIngresosDia');
+  }
 
-/*
-      getlistRecetaByCedula(cedula: number): Observable<any[]> {
-        return this.http.get<any[]>(`${this.apiUrlController}/listRecetaByCedula/${cedula}`);
-      }
 
-  */  
-     
 }

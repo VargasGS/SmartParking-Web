@@ -1,6 +1,8 @@
 <h2 style="margin-bottom: 20px; font-weight: 500;">
-  Dashboard
+  Indicadores
 </h2>
+
+
 <div class="kpi-container">
 
   <mat-card class="kpi-card kpi-blue">
@@ -13,7 +15,14 @@
   <mat-card class="kpi-card kpi-green">
     <div class="kpi-content">
       <span>Ingresos actuales</span>
-      <h1>₡{{ ingresosActuales }}</h1>
+      <h1>₡{{ ingresosActualesColones }}</h1>
+    </div>
+  </mat-card>
+
+    <mat-card class="kpi-card kpi-green">
+    <div class="kpi-content">
+      <span>Ingresos actuales</span>
+      <h1>${{ ingresosActualesDolares }}</h1>
     </div>
   </mat-card>
 
