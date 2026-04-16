@@ -1,67 +1,153 @@
 <form [formGroup]="form">
 
-<mat-card appearance="outlined">
+  <mat-card appearance="outlined">
 
-  <mat-card-header>
-    <mat-card-title><h3>Registro de Vehículo</h3></mat-card-title>
-    <mat-card-subtitle style="color: #fff;">Ingrese la información</mat-card-subtitle>
-  </mat-card-header>
-<br>
-  <mat-card-content>
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Registro de Vehículo</h3>
+      </mat-card-title>
+      <mat-card-subtitle style="color: #fff;">Ingrese la información</mat-card-subtitle>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
 
-    <div class="form-row">
+      <div class="form-row">
 
-      <!-- Placa -->
-      <mat-form-field appearance="outline">
-        <mat-label>Placa o matrícula</mat-label>
-        <input matInput formControlName="placa">
+        <!-- Placa -->
+        <mat-form-field appearance="outline">
+          <mat-label>Placa o matrícula</mat-label>
+          <input matInput formControlName="placa">
 
-        <mat-error *ngIf="form.get('placa')?.hasError('required')">
-          La placa es obligatoria
-        </mat-error>
+          <mat-error *ngIf="form.get('placa')?.hasError('required')">
+            La placa es obligatoria
+          </mat-error>
 
-        <mat-error *ngIf="form.get('placa')?.hasError('minlength')">
-          Mínimo 5 caracteres
-        </mat-error>
+          <mat-error *ngIf="form.get('placa')?.hasError('minlength')">
+            Mínimo 5 caracteres
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Tipo vehículo -->
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de Vehículo</mat-label>
+
+          <mat-select formControlName="idTipoVehiculo" class="cardIndividual">
+            <mat-option *ngFor="let item of tipoVehiculoList" [value]="item.idTipoVehiculo">
+              {{ item.tipoVehiculoDescripcion }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Checkbox -->
+        <mat-checkbox formControlName="ley7600">
+          Ley 7600
+        </mat-checkbox>
+
+      </div>
+
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+      <button mat-raised-button color="primary" [disabled]="form.invalid" (click)="guardarVehiculoCampo()">
+        <mat-icon>save</mat-icon>
+        Registrar
+      </button>
+    </mat-card-actions>
+
+  </mat-card>
+
+  <br>
+  <mat-card>
+
+    <mat-card-header>
+      <mat-card-title>
+        <h3>Listado de vehiculos registrados</h3>
+      </mat-card-title>
+    </mat-card-header>
+    <br>
+    <mat-card-content>
+
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Buscar matrícula" #input>
       </mat-form-field>
 
-      <!-- Tipo vehículo -->
-      <mat-form-field appearance="outline">
-        <mat-label>Tipo Vehículo</mat-label>
-        <mat-select formControlName="tipoVehiculo">
+      <div class="mat-elevation-z8">
 
-          <mat-option value="carro">Carro</mat-option>
-          <mat-option value="moto">Moto</mat-option>
+        <table mat-table [dataSource]="dataSource">
 
-        </mat-select>
+          <!-- ID -->
+          <ng-container matColumnDef="idVehiculoCampo">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.idVehiculoCampo }}
+            </td>
+          </ng-container>
 
-        <mat-error *ngIf="form.get('tipoVehiculo')?.hasError('required')">
-          Seleccione un tipo de vehículo
-        </mat-error>
-      </mat-form-field>
+          <ng-container matColumnDef="descripcionTipoVehiculo">
+            <th mat-header-cell *matHeaderCellDef> Descripcion tipo vehiculo </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.descripcionTipoVehiculo }}
+            </td>
+          </ng-container>
 
-      <!-- Checkbox -->
-      <mat-checkbox formControlName="ley7600">
-        Ley 7600
-      </mat-checkbox>
+          <ng-container matColumnDef="matricula">
+            <th mat-header-cell *matHeaderCellDef> Matricula </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.matricula }}
+            </td>
+          </ng-container>
 
-    </div>
+          <ng-container matColumnDef="fechaProceso">
+            <th mat-header-cell *matHeaderCellDef> Fecha proceso </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.fechaProceso }}
+            </td>
+          </ng-container>
 
-  </mat-card-content>
+          <ng-container matColumnDef="montoPrecioColones">
+            <th mat-header-cell *matHeaderCellDef> Precio colones </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.montoPrecioColones }}
+            </td>
+          </ng-container>
 
-  <mat-card-actions align="end">
-    <button 
-      mat-raised-button 
-      color="primary"
-      class="btnRegistrar"
-      [disabled]="form.invalid">
+          <ng-container matColumnDef="montoPrecioDolares">
+            <th mat-header-cell *matHeaderCellDef> Precio dólares </th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.montoPrecioDolares }}
+            </td>
+          </ng-container>
 
-      <mat-icon>save</mat-icon>
-      Registrar
+          <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef> Acciones </th>
 
-    </button>
-  </mat-card-actions>
+            <td mat-cell *matCellDef="let element">
+              <button mat-raised-button color="primary" (click)="actualizarVehiculoCampo(element)">
+                Seleccionar
+              </button>
+            </td>
+          </ng-container>
 
-</mat-card>
+
+          <!-- HEADER -->
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+          <!-- ROWS -->
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+      </div>
+
+
+    </mat-card-content>
+
+    <mat-card-actions align="end">
+
+    </mat-card-actions>
+
+  </mat-card>
+
 
 </form>
