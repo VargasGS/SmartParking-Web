@@ -32,7 +32,7 @@ export class VehiculoCampoService extends VehiculoCampoData {
     }
 
 
-    ObtenerIngresosDia(): Observable<IngresoDia> {
+    ObtenerIngresosDia(): Observable<IngresoDia[]> {
         return this.api.ObtenerIngresosDia().pipe(
             map(res => res.data)
         );

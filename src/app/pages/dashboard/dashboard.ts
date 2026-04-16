@@ -120,10 +120,10 @@ export class DashboardComponent {
   ObtenerIngresosDia() {
     this.vehiculoCampoServicio.ObtenerIngresosDia().subscribe({
       next: (res) => {
-console.log(res.ingresosColones, res.ingresosDolares);
+        console.log(res[0].ingresosColones, res[0].ingresosDolares);
         
-        this.ingresosActualesColones = res.ingresosColones;
-        this.ingresosActualesDolares = res.ingresosDolares;
+        this.ingresosActualesColones = res[0].ingresosColones;
+        this.ingresosActualesDolares = res[0].ingresosDolares;
         console.log(this.ingresosActualesColones, this.ingresosActualesDolares);
       }
     });

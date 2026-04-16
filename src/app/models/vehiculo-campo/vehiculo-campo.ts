@@ -41,7 +41,7 @@ export interface IngresoDia{
 export abstract class VehiculoCampoData {
     abstract guardarVehiculoCampo(item: VehiculoCampo): Observable<GenericResponse<number>>;
     abstract obtenerVehiculoCampo(): Observable<VehiculoCampoRequest[]>;
-    abstract ObtenerIngresosDia(): Observable<IngresoDia>;
+    abstract ObtenerIngresosDia(): Observable<IngresoDia[]>;
 
 
     //abstract actualizarVehiculoCampo(): Observable<VehiculoCampo[]>;

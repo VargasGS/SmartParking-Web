@@ -32,8 +32,8 @@ export class VehiculoCampoApi {
     return this.http.put(this.apiUrlController+'/Finish', item);
   }
 
-   ObtenerIngresosDia(): Observable<GenericResponse<IngresoDia>> {
-    return this.http.get<GenericResponse<IngresoDia>>(this.apiUrlController+'/GetIngresosDia');
+   ObtenerIngresosDia(): Observable<GenericResponse<IngresoDia[]>> {
+    return this.http.get<GenericResponse<IngresoDia[]>>(this.apiUrlController+'/GetIngresosDia');
   }
 
 
