@@ -4,6 +4,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterOutlet, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -20,4 +21,9 @@ import { RouterOutlet, RouterLink } from '@angular/router';
   templateUrl: './home.html',
   styleUrl: './home.css',
 })
-export class HomeComponent {}
+export class HomeComponent {
+
+  constructor(private router: Router) {}
+
+
+}
